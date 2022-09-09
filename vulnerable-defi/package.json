@@ -1,0 +1,22 @@
+{
+  "name": "vulnerable-defi",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "truffle test"
+  },
+  "devDependencies": {
+    "truffle": "5.5.29",
+    "ethers": "5.7.0",
+    "@openzeppelin/contracts": "4.3.2",
+    "@openzeppelin/contracts-upgradeable": "4.3.2",
+    "chai": "4.3.6",
+    "chai-bn": "0.3.1",
+    "ethereum-waffle": "3.4.4"
+  }
+}
