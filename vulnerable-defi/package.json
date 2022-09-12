@@ -8,8 +8,9 @@
     "test": "tests"
   },
   "scripts": {
-    "test:unstoppable": "concurrently -k -n ganache,test  ganache \"truffle test ./tests/unstoppable/unstoppable.challenge.js\"",
-    "test:naive-receiver": "concurrently -k -n ganache,test  'ganache -e 10000 ' \"truffle test ./tests/naive-receiver/naive-receiver.challenge.js\""
+    "test:unstoppable": "concurrently -k -n ganache,test  'ganache -q' 'truffle test ./tests/unstoppable/unstoppable.challenge.js'",
+    "test:naive-receiver": "concurrently -k -n ganache,test  'ganache -q -e 10000' 'truffle test ./tests/naive-receiver/naive-receiver.challenge.js'",
+    "test:truster": "concurrently -k -n ganache,test  'ganache -q -e 1000000' 'truffle test ./tests/truster/truster.challenge.js'"
   },
   "devDependencies": {
     "@openzeppelin/contracts": "4.3.2",
