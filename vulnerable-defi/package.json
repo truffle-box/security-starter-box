@@ -8,15 +8,19 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "truffle test"
+    "test:unstoppable": "concurrently -k -n ganache,test  ganache \"truffle test ./tests/unstoppable/unstoppable.challenge.js\"",
+    "test:naive-receiver": "concurrently -k -n ganache,test  'ganache -e 10000 ' \"truffle test ./tests/naive-receiver/naive-receiver.challenge.js\""
   },
   "devDependencies": {
-    "truffle": "5.5.29",
-    "ethers": "5.7.0",
     "@openzeppelin/contracts": "4.3.2",
     "@openzeppelin/contracts-upgradeable": "4.3.2",
     "chai": "4.3.6",
     "chai-bn": "0.3.1",
-    "ethereum-waffle": "3.4.4"
+    "ethereum-waffle": "3.4.4",
+    "ethers": "5.7.0",
+    "truffle": "5.5.29",
+    "concurrently": "^7.4.0"
+  },
+  "dependencies": {
   }
 }
