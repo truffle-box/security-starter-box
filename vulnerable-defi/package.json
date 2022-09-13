@@ -8,6 +8,9 @@
     "test": "tests"
   },
   "scripts": {
+    "arm:unstoppable": " scribble --arm -m files ./contracts/unstoppable/UnstoppableLender.sol",
+    "disarm:unstoppable": " scribble --disarm -m files ./contracts/unstoppable/UnstoppableLender.sol",
+    "mythril:unstoppable": "myth analyze ./contracts/unstoppable/UnstoppableLender.sol",
     "test:unstoppable": "concurrently -k -n ganache,test  'ganache -q' 'truffle test ./tests/unstoppable/unstoppable.challenge.js'",
     "test:naive-receiver": "concurrently -k -n ganache,test  'ganache -q -e 10000' 'truffle test ./tests/naive-receiver/naive-receiver.challenge.js'",
     "test:truster": "concurrently -k -n ganache,test  'ganache -q -e 1000000' 'truffle test ./tests/truster/truster.challenge.js'"
@@ -19,9 +22,9 @@
     "chai-bn": "0.3.1",
     "ethereum-waffle": "3.4.4",
     "ethers": "5.7.0",
+    "eth-scribble": "^0.6.13",
     "truffle": "5.5.29",
     "concurrently": "^7.4.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
