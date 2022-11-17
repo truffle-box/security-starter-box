@@ -1,0 +1,1 @@
+diligence-fuzzing >= 0.9.14
