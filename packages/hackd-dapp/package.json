@@ -1,13 +1,14 @@
 {
   "name": "hackd-dapp",
   "version": "0.1.0",
+  "packageManager": "yarn@3.3.0",
   "private": true,
   "dependencies": {
-    "@ethersproject/providers": "^5.7.2",
-    "@usedapp/core": "^1.2.2",
+    "@headlessui/react": "^1.7.4",
     "ethers": "^5.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "wagmi": "^0.8.9",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
@@ -43,8 +44,6 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "autoprefixer": "^10.4.13",
-    "flowbite": "^1.5.4",
-    "flowbite-react": "^0.3.5",
     "postcss": "^8.4.19",
     "react-scripts": "5.0.1",
     "tailwindcss": "^3.2.4",

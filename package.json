@@ -1,0 +1,11 @@
+{
+  "name": "security-speedrun",
+  "private": true,
+  "packageManager": "yarn@3.3.0",
+  "engines": {
+    "node": "lts/fermium"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
