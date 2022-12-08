@@ -34,24 +34,17 @@ function WalletButton() {
         )}
         <Dialog open={showModal} onClose={toggleModal} className="relative z-50">
           <div className="fixed inset-0 flex items-center justify-center p-4">
-            <Dialog.Panel className="w-full max-w-sm rounded bg-white">
-              <Dialog.Title>Wallet Details</Dialog.Title>
-              <div className="space-y-6">
+            <Dialog.Panel className="nes-container with-title  w-8/12 p-4 rounded bg-white  border-2 border-red-500">
+              <div className="title ">Wallet Details</div>
+              <div className="space-y-6 text-lg ">
                 Account: {address}
               </div>
-              )
-              {/*{!account && (*/}
-              {/*  <div className="space-y-6">*/}
-              {/*    Not connected...*/}
-              {/*    <button className="nes-btn is-warning" onClick={connectWallet}>*/}
-              {/*      Connect Wallet*/}
-              {/*    </button>*/}
-              {/*  </div>*/}
-              {/*)}*/}
+              <br/>
 
               <button className="nes-btn is-error" onClick={() => disconnectWallet()}>
                 Disconnect
               </button>
+              {' '}
               <button className="nes-btn" onClick={toggleModal}>
                 OK
               </button>

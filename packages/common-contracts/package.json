@@ -1,0 +1,21 @@
+{
+  "name": "@securityspeedrun/common-contracts",
+  "packageManager": "yarn@3.3.0",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.8.0"
+  },
+  "scripts": {
+    "build": "yarn typecheck",
+    "generate-types": "typechain --target=truffle-v5 'build/contracts/*.json'",
+    "migrate": "tsc -p ./tsconfig.migrate.json --outDir ./migrations && truffle migrate",
+    "typecheck": "truffle compile && yarn generate-types && tsc --noEmit",
+    "postinstall": "yarn typecheck"
+  },
+  "devDependencies": {
+    "@typechain/truffle-v5": "^8.0.2",
+    "ganache": "*",
+    "truffle": "*",
+    "typechain": "^8.1.1",
+    "typescript": "*"
+  }
+}
