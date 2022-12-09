@@ -2,6 +2,7 @@ import {Dialog} from "@headlessui/react"
 import React, {useState} from "react";
 import {useAccount, useConnect, useDisconnect} from "wagmi"
 import {InjectedConnector} from "wagmi/connectors/injected"
+import {truncateEthAddress} from "../utils";
 
 function WalletButton() {
   const {address, isConnected} = useAccount()
@@ -29,7 +30,7 @@ function WalletButton() {
         )}
         {isConnected && (
           <button className="nes-btn is-success" onClick={toggleModal}>
-            Account: {address}
+            Account: {truncateEthAddress(address)}
           </button>
         )}
         <Dialog open={showModal} onClose={toggleModal} className="relative z-50">
@@ -37,7 +38,7 @@ function WalletButton() {
             <Dialog.Panel className="nes-container with-title  w-8/12 p-4 rounded bg-white  border-2 border-red-500">
               <div className="title ">Wallet Details</div>
               <div className="space-y-6 text-lg ">
-                Account: {address}
+                Account: {truncateEthAddress(address)}
               </div>
               <br/>
 

@@ -3720,6 +3720,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@heroicons/react@npm:^2.0.13":
+  version: 2.0.13
+  resolution: "@heroicons/react@npm:2.0.13"
+  peerDependencies:
+    react: ">= 16"
+  checksum: f03c393a129cb468d103e4334815df956d7afa9d0756ee09b33e9396214d39b786523a5e650709de73c68ba085facda3fe01984ff137bcc16c85d4ed2498e663
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.11.6":
   version: 0.11.7
   resolution: "@humanwhocodes/config-array@npm:0.11.7"
@@ -4381,21 +4390,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@my-app/contracts@^1.0.0, @my-app/contracts@workspace:packages/my-eth-app-blarp/packages/contracts":
+"@my-app/contracts@^1.0.0, @my-app/contracts@workspace:packages/my-eth-app-blarp-DELETE/packages/contracts":
   version: 0.0.0-use.local
-  resolution: "@my-app/contracts@workspace:packages/my-eth-app-blarp/packages/contracts"
+  resolution: "@my-app/contracts@workspace:packages/my-eth-app-blarp-DELETE/packages/contracts"
   languageName: unknown
   linkType: soft
 
-"@my-app/monorepo@workspace:packages/my-eth-app-blarp":
+"@my-app/monorepo@workspace:packages/my-eth-app-blarp-DELETE":
   version: 0.0.0-use.local
-  resolution: "@my-app/monorepo@workspace:packages/my-eth-app-blarp"
+  resolution: "@my-app/monorepo@workspace:packages/my-eth-app-blarp-DELETE"
   languageName: unknown
   linkType: soft
 
-"@my-app/react-app@workspace:packages/my-eth-app-blarp/packages/react-app":
+"@my-app/react-app@workspace:packages/my-eth-app-blarp-DELETE/packages/react-app":
   version: 0.0.0-use.local
-  resolution: "@my-app/react-app@workspace:packages/my-eth-app-blarp/packages/react-app"
+  resolution: "@my-app/react-app@workspace:packages/my-eth-app-blarp-DELETE/packages/react-app"
   dependencies:
     "@apollo/client": ^3.5.10
     "@ethersproject/contracts": ^5.6.0
@@ -4417,9 +4426,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@my-app/subgraph@workspace:packages/my-eth-app-blarp/packages/subgraph":
+"@my-app/subgraph@workspace:packages/my-eth-app-blarp-DELETE/packages/subgraph":
   version: 0.0.0-use.local
-  resolution: "@my-app/subgraph@workspace:packages/my-eth-app-blarp/packages/subgraph"
+  resolution: "@my-app/subgraph@workspace:packages/my-eth-app-blarp-DELETE/packages/subgraph"
   dependencies:
     "@graphprotocol/graph-cli": 0.28.0
     "@graphprotocol/graph-ts": 0.26.0
@@ -5561,6 +5570,21 @@ __metadata:
   checksum: 049ed3d152dbca4c37e0f84e5b17ec866ace0cf642ffdf9d8328b05f37f87dee27dcbae1a6871e757628bd24480e4d29b97a120b0d86614c4b0068547b2381a6
   languageName: node
   linkType: hard
+
+"@truffle/securityspeedrun@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@truffle/securityspeedrun@workspace:."
+  dependencies:
+    "@heroicons/react": ^2.0.13
+    "@types/eslint": ^8
+    concurrently: ^7.6.0
+    eslint: ^8.29.0
+    ethers: 5.7.2
+    ganache: 7.5.0
+    truffle: ^5.6.8
+    typescript: 4.9.3
+  languageName: unknown
+  linkType: soft
 
 "@truffle/source-map-utils@npm:^1.3.102":
   version: 1.3.102
@@ -29041,20 +29065,6 @@ __metadata:
   checksum: 37aaae687a8de9b7bc733ab26bc89c4302b9c681d69d71d531842d99d3af9301a4e30dbe40122793ec64b7a08b8fee8d2330397b7b2dd3a7e404ed259a458089
   languageName: node
   linkType: hard
-
-"securityspeedrun@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "securityspeedrun@workspace:."
-  dependencies:
-    "@types/eslint": ^8
-    concurrently: ^7.6.0
-    eslint: ^8.29.0
-    ethers: 5.7.2
-    ganache: 7.5.0
-    truffle: ^5.6.8
-    typescript: 4.9.3
-  languageName: unknown
-  linkType: soft
 
 "seedrandom@npm:3.0.1":
   version: 3.0.1

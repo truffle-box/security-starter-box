@@ -1,5 +1,5 @@
 {
-  "name": "securityspeedrun",
+  "name": "@truffle/securityspeedrun",
   "version": "1.0.0",
   "private": true,
   "packageManager": "yarn@3.3.0",
@@ -7,7 +7,7 @@
     "node": "lts/fermium"
   },
   "scripts": {
-    "g:run-ganache": "ganache --wallet.defaultBalance 10000000 --wallet.deterministic --chain.allowUnlimitedContractSize "
+    "g:run-ganache": "ganache --wallet.defaultBalance 10000000 --wallet.deterministic --chain.allowUnlimitedContractSize"
   },
   "workspaces": [
     "packages/*"
@@ -20,5 +20,8 @@
     "ganache": "7.5.0",
     "truffle": "^5.6.8",
     "typescript": "4.9.3"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.0.13"
   }
 }
