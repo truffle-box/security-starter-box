@@ -9,10 +9,13 @@
     "generate-types": "typechain --target=truffle-v5 'build/contracts/*.json'",
     "migrate": "tsc -p ./tsconfig.migrate.json --outDir ./migrations && truffle migrate",
     "typecheck": "truffle compile && yarn generate-types && tsc --noEmit",
-    "postinstall": "yarn typecheck"
+    "postinstall": "yarn typecheck",
+    "run-ganache": "yarn g:run-ganache",
+    "g:hackdapp-ganache-migrate": "concurrently -n ganache,migrate 'yarn run-ganache' 'yarn migrate && echo ALL CONTRACTS DEPLOYED. Ctrl+c to close this server down when finished.'"
   },
   "devDependencies": {
     "@typechain/truffle-v5": "^8.0.2",
+    "concurrently": "*",
     "ganache": "*",
     "truffle": "*",
     "typechain": "^8.1.1",

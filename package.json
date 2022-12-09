@@ -6,11 +6,15 @@
   "engines": {
     "node": "lts/fermium"
   },
+  "scripts": {
+    "g:run-ganache": "ganache --wallet.defaultBalance 10000000 --wallet.deterministic --chain.allowUnlimitedContractSize "
+  },
   "workspaces": [
     "packages/*"
   ],
   "devDependencies": {
     "@types/eslint": "^8",
+    "concurrently": "^7.6.0",
     "eslint": "^8.29.0",
     "ethers": "5.7.2",
     "ganache": "7.5.0",
