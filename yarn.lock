@@ -4771,6 +4771,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@remix-run/router@npm:1.0.5":
+  version: 1.0.5
+  resolution: "@remix-run/router@npm:1.0.5"
+  checksum: 5d66750b7defc10c80d9748fa003fcfe2af9ef82de3c06be88c926ede36a15b9e971ed2222981db843494e2f77c3de14470efe6dc877530cea774dc31162ec6f
+  languageName: node
+  linkType: hard
+
 "@resolver-engine/core@npm:^0.3.3":
   version: 0.3.3
   resolution: "@resolver-engine/core@npm:0.3.3"
@@ -5575,7 +5582,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@truffle/securityspeedrun@workspace:."
   dependencies:
-    "@heroicons/react": ^2.0.13
     "@types/eslint": ^8
     concurrently: ^7.6.0
     eslint: ^8.29.0
@@ -16954,6 +16960,7 @@ __metadata:
   resolution: "hackd-dapp@workspace:packages/hackd-dapp"
   dependencies:
     "@headlessui/react": ^1.7.4
+    "@heroicons/react": ^2.0.13
     "@testing-library/jest-dom": ^5.14.1
     "@testing-library/react": ^13.0.0
     "@testing-library/user-event": ^13.2.1
@@ -16967,6 +16974,7 @@ __metadata:
     postcss: ^8.4.19
     react: ^18.2.0
     react-dom: ^18.2.0
+    react-router-dom: ^6.4.5
     react-scripts: 5.0.1
     tailwindcss: ^3.2.4
     typescript: "*"
@@ -27548,6 +27556,30 @@ __metadata:
   version: 0.8.3
   resolution: "react-refresh@npm:0.8.3"
   checksum: 3cffe5a9cbac1c5d59bf74bf9fff43c987d87ef32098b9092ea94b6637377d86c08565b9374d9397f446b3fbcd95de986ec77220a16f979687cb39b7b89e2f91
+  languageName: node
+  linkType: hard
+
+"react-router-dom@npm:^6.4.5":
+  version: 6.4.5
+  resolution: "react-router-dom@npm:6.4.5"
+  dependencies:
+    "@remix-run/router": 1.0.5
+    react-router: 6.4.5
+  peerDependencies:
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: 09d7841dd52efd2c60947171f95d9d1860cabd7540ac74dede86a6c36a2dd26a645e4928cbc8aa4e1c9d1f906f2ef144ba6da5ac69243590df855a6df8cfe1aa
+  languageName: node
+  linkType: hard
+
+"react-router@npm:6.4.5":
+  version: 6.4.5
+  resolution: "react-router@npm:6.4.5"
+  dependencies:
+    "@remix-run/router": 1.0.5
+  peerDependencies:
+    react: ">=16.8"
+  checksum: 0d471df39f0487224240f9910c2f2939519f3e9909a7b19f72767aeea2caf1c9fa4e8ea9a51b17c20051ec252db0fcc34a7a0b3068b338dd9d8eb656ffd489c1
   languageName: node
   linkType: hard
 

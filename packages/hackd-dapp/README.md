@@ -48,3 +48,13 @@ Then you can go buy the NFT by clicking the BUY NFTs button. This will do 2 thin
 2. When you approve this, well, game over.
 3. Now it has approval, strangely you can't buy any NFTs...
 4. At the top of the screen you will see the P0WN3D section changing to show the attacker now has approval on your coins and would most likely drain them.
+
+
+## Credits
+
+- https://nostalgic-css.github.io/NES.css/
+- ethers
+- wagmi
+- stackoverflow
+- yarn 3
+- coffee
