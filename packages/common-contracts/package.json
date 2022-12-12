@@ -2,19 +2,32 @@
   "name": "@securityspeedrun/common-contracts",
   "packageManager": "yarn@3.3.0",
   "dependencies": {
-    "@openzeppelin/contracts": "^4.8.0"
+    "@openzeppelin/contracts": "^4.8.0",
+    "rimraf": "^3.0.2"
   },
+  "main": "./dist/src/index.js",
+  "module": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
+  "files": [
+    "types/**",
+    "dist/**",
+    "build/contracts/**"
+  ],
   "scripts": {
-    "build": "yarn typecheck",
-    "generate-types": "typechain --target=truffle-v5 'build/contracts/*.json'",
+    "build": "yarn rimraf dist/ && yarn typecheck",
+    "generate-types:truffle": "typechain --target=truffle-v5 'build/contracts/*.json'",
+    "generate-types:ethers": "typechain --target=ethers-v5 'build/contracts/*.json'",
+    "generate-types": "yarn generate-types:ethers && yarn generate-types:truffle",
     "migrate": "tsc -p ./tsconfig.migrate.json --outDir ./migrations && truffle migrate",
-    "typecheck": "truffle compile && yarn generate-types && tsc --noEmit",
+    "typecheck": "truffle compile && yarn generate-types && tsc --build ./tsconfig.build.json --verbose",
     "postinstall": "yarn typecheck",
     "run-ganache": "yarn g:run-ganache",
     "g:hackdapp-ganache-migrate": "concurrently -n ganache,migrate 'yarn run-ganache' 'yarn migrate && echo ALL CONTRACTS DEPLOYED. Ctrl+c to close this server down when finished.'"
   },
   "devDependencies": {
+    "@typechain/ethers-v5": "^10.1.1",
     "@typechain/truffle-v5": "^8.0.2",
+    "@types/rimraf": "^3",
     "concurrently": "*",
     "ganache": "*",
     "truffle": "*",

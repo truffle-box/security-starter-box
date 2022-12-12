@@ -7,7 +7,7 @@ import WalletButton from "./WalletButton";
 
 const Header = () => {
   const {chain} = useNetwork()
-  const {chains, error, isLoading, pendingChainId, switchNetwork} = useSwitchNetwork()
+  const {error, isLoading, pendingChainId, switchNetwork} = useSwitchNetwork()
   const {wrongChain} = useHackDapp()
 
   return (

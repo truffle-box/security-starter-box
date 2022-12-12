@@ -4903,17 +4903,49 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@securityspeedrun/common-contracts@workspace:packages/common-contracts":
+"@securityspeedrun/common-contracts@workspace:^, @securityspeedrun/common-contracts@workspace:packages/common-contracts":
   version: 0.0.0-use.local
   resolution: "@securityspeedrun/common-contracts@workspace:packages/common-contracts"
   dependencies:
     "@openzeppelin/contracts": ^4.8.0
+    "@typechain/ethers-v5": ^10.1.1
     "@typechain/truffle-v5": ^8.0.2
+    "@types/rimraf": ^3
     concurrently: "*"
     ganache: "*"
+    rimraf: ^3.0.2
     truffle: "*"
     typechain: ^8.1.1
     typescript: "*"
+  languageName: unknown
+  linkType: soft
+
+"@securityspeedrun/hackd-dapp@workspace:packages/hackd-dapp":
+  version: 0.0.0-use.local
+  resolution: "@securityspeedrun/hackd-dapp@workspace:packages/hackd-dapp"
+  dependencies:
+    "@headlessui/react": ^1.7.4
+    "@heroicons/react": ^2.0.13
+    "@securityspeedrun/common-contracts": "workspace:^"
+    "@testing-library/jest-dom": ^5.14.1
+    "@testing-library/react": ^13.0.0
+    "@testing-library/user-event": ^13.2.1
+    "@types/jest": ^27.0.1
+    "@types/node": ^16.7.13
+    "@types/react": ^18.0.0
+    "@types/react-dom": ^18.0.0
+    autoprefixer: ^10.4.13
+    concurrently: "*"
+    ethers: ^5.7.2
+    postcss: ^8.4.19
+    react: ^18.2.0
+    react-dom: ^18.2.0
+    react-router-dom: ^6.4.5
+    react-scripts: 5.0.1
+    tailwindcss: ^3.2.4
+    typescript: "*"
+    wagmi: ^0.8.9
+    web-vitals: ^2.1.0
   languageName: unknown
   linkType: soft
 
@@ -5659,6 +5691,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@typechain/ethers-v5@npm:^10.1.1":
+  version: 10.1.1
+  resolution: "@typechain/ethers-v5@npm:10.1.1"
+  dependencies:
+    lodash: ^4.17.15
+    ts-essentials: ^7.0.1
+  peerDependencies:
+    "@ethersproject/abi": ^5.0.0
+    "@ethersproject/bytes": ^5.0.0
+    "@ethersproject/providers": ^5.0.0
+    ethers: ^5.1.3
+    typechain: ^8.1.1
+    typescript: ">=4.3.0"
+  checksum: 6264294a03d0af117f99bee1639461be38161418d7be340a5bf24c4197aeaf7956aabec922119c20f90dba38ea7c12e5c85e0baddd358d18d68f4865037671cb
+  languageName: node
+  linkType: hard
+
 "@typechain/ethers-v5@npm:^2.0.0":
   version: 2.0.0
   resolution: "@typechain/ethers-v5@npm:2.0.0"
@@ -5908,6 +5957,16 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: f0c283fdef2dd7191168a37b9cb2625af3cfbd7f72b5a514f938bea0a135669f79d736186d434b9e81150b47ef1bf20d97b188014a00583556fad6ce59fb9bbf
+  languageName: node
+  linkType: hard
+
+"@types/glob@npm:*":
+  version: 8.0.0
+  resolution: "@types/glob@npm:8.0.0"
+  dependencies:
+    "@types/minimatch": "*"
+    "@types/node": "*"
+  checksum: 1817b05f5a8aed851d102a65b5e926d5c777bef927ea62b36d635860eef5364f2046bb5a692d135b6f2b28f34e4a9d44ade9396122c0845bcc7636d35f624747
   languageName: node
   linkType: hard
 
@@ -6260,6 +6319,16 @@ __metadata:
   version: 0.12.0
   resolution: "@types/retry@npm:0.12.0"
   checksum: 61a072c7639f6e8126588bf1eb1ce8835f2cb9c2aba795c4491cf6310e013267b0c8488039857c261c387e9728c1b43205099223f160bb6a76b4374f741b5603
+  languageName: node
+  linkType: hard
+
+"@types/rimraf@npm:^3":
+  version: 3.0.2
+  resolution: "@types/rimraf@npm:3.0.2"
+  dependencies:
+    "@types/glob": "*"
+    "@types/node": "*"
+  checksum: b47fa302f46434cba704d20465861ad250df79467d3d289f9d6490d3aeeb41e8cb32dd80bd1a8fd833d1e185ac719fbf9be12e05ad9ce9be094d8ee8f1405347
   languageName: node
   linkType: hard
 
@@ -16954,34 +17023,6 @@ __metadata:
   checksum: 2df97f359696ad154fc171dcb55bc883fe6e833bca7a65e457b9358f3cb6312405ed70a8da24a77c1baac0639906cd52358dc0ce2ec1a937eaa631b934c94194
   languageName: node
   linkType: hard
-
-"hackd-dapp@workspace:packages/hackd-dapp":
-  version: 0.0.0-use.local
-  resolution: "hackd-dapp@workspace:packages/hackd-dapp"
-  dependencies:
-    "@headlessui/react": ^1.7.4
-    "@heroicons/react": ^2.0.13
-    "@testing-library/jest-dom": ^5.14.1
-    "@testing-library/react": ^13.0.0
-    "@testing-library/user-event": ^13.2.1
-    "@types/jest": ^27.0.1
-    "@types/node": ^16.7.13
-    "@types/react": ^18.0.0
-    "@types/react-dom": ^18.0.0
-    autoprefixer: ^10.4.13
-    concurrently: "*"
-    ethers: ^5.7.2
-    postcss: ^8.4.19
-    react: ^18.2.0
-    react-dom: ^18.2.0
-    react-router-dom: ^6.4.5
-    react-scripts: 5.0.1
-    tailwindcss: ^3.2.4
-    typescript: "*"
-    wagmi: ^0.8.9
-    web-vitals: ^2.1.0
-  languageName: unknown
-  linkType: soft
 
 "handle-thing@npm:^2.0.0":
   version: 2.0.1

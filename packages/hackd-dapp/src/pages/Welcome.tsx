@@ -1,4 +1,4 @@
-import {useHackDapp} from "./hooks/useHackDapp";
+import {useHackDapp} from "../hooks/useHackDapp";
 
 export const Welcome = function() {
   const {wrongChain} = useHackDapp()

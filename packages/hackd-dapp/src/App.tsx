@@ -1,15 +1,15 @@
 import {Link, Outlet, Route, Routes} from "react-router-dom";
 import Header from "./components/Header";
 import {Leaderboard} from "./components/Leaderboard";
-import {Welcome} from "./Welcome";
+import Mint from "./pages/Mint";
+import {Welcome} from "./pages/Welcome";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout/>}>
         <Route index element={<Welcome/>}/>
-        {/*<Route path="about" element={<About />} />*/}
-        {/*<Route path="dashboard" element={<Dashboard />} />*/}
+        <Route path="coinz" element={<Mint/>}/>
         {/*/!* Using path="*"" means "match anything", so this route*/}
         {/* acts like a catch-all for URLs that we don't have explicit*/}
         {/* routes for. *!/*/}

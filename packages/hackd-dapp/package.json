@@ -1,11 +1,12 @@
 {
-  "name": "hackd-dapp",
+  "name": "@securityspeedrun/hackd-dapp",
   "version": "0.1.0",
   "packageManager": "yarn@3.3.0",
   "private": true,
   "dependencies": {
     "@headlessui/react": "^1.7.4",
     "@heroicons/react": "^2.0.13",
+    "@securityspeedrun/common-contracts": "workspace:^",
     "ethers": "^5.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

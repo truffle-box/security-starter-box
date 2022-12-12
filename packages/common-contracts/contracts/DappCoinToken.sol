@@ -13,7 +13,7 @@ contract DappCoinToken is ERC20 {
 
     // Decimals are set to 18 by default in `ERC20`
     constructor() ERC20("DappCoinTokens", "DCT") {
-        _mint(msg.sender, type(uint256).max);
+        _mint(msg.sender, 1000);
     }
 
     /**
@@ -21,7 +21,7 @@ contract DappCoinToken is ERC20 {
      */
     function buySome(uint amount) public payable {
         require( msg.value == 1 ether, "You need to pay 1 ETH to get some magic tokens..");
-        require( amount < maxMintAmount, "You have exceeded the maxMintAmount");
+        require( amount <= maxMintAmount, "You have exceeded the maxMintAmount");
         _mint(msg.sender, amount);
     }
 }

@@ -2,7 +2,7 @@ import {Dialog} from "@headlessui/react"
 import React, {useState} from "react";
 import {useAccount, useConnect, useDisconnect, chain} from "wagmi"
 import {InjectedConnector} from "wagmi/connectors/injected"
-import {truncateEthAddress} from "../utils";
+import {truncateEthAddress} from "../helpers/EthUtils";
 
 function WalletButton() {
   const {address, isConnected} = useAccount()
