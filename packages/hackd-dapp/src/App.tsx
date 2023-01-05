@@ -29,11 +29,10 @@ function Layout() {
         <ul className="list-disc">
           <li><Link to="/">Home</Link></li>
           <li><Link to="/coinz">3 C01NZ</Link></li>
-          <li><Link to="/mint">M1NT NFT</Link></li>
+          <li><Link to="/badContract">BAD CONTRACT</Link></li>
         </ul>
       </nav>
       <main className="flex flex-col items-center justify-start col-span-8 nes-container is-rounded">
-        <Leaderboard/>
         <Outlet/>
       </main>
       <footer className="nes-container is-dark col-span-10 text-[8px] ">

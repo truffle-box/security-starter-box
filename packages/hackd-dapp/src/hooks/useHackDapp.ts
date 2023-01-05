@@ -49,23 +49,7 @@ export function useHackDapp() {
       watch: true,
     })
 
-  const {data: attackerEthBalance} = useBalance(
-    {
-      address: accounts.attacker,
-      chainId: localhost.id,
-      formatUnits: "ether",
-      watch: true,
-    })
-  const {data: attackerRvtBalance} = useBalance(
-    {
-      address: accounts.attacker,
-      token: contracts.reallyValuableToken,
-      chainId: localhost.id,
-      formatUnits: "ether",
-      watch: true,
-    })
-
-  return {wrongChain, myEthBalance, myRvtBalance, myDTBalance, attackerEthBalance, attackerRvtBalance}
+  return {wrongChain, myEthBalance, myRvtBalance, myDTBalance}
 }
 
 /**
@@ -80,6 +64,14 @@ export function useHackerMonitor() {
   const wallet = new ethers.Wallet(testAccountPrivateKeys.attacker);
   const walletSigner = wallet.connect(provider);
   const rvtInst = ReallyValuableToken__factory.connect(contracts.reallyValuableToken, walletSigner)
+
+  const {data: attackerEthBalance} = useBalance(
+    {
+      address: accounts.attacker,
+      chainId: localhost.id,
+      formatUnits: "ether",
+      watch: true,
+    })
 
   const {data: attackerRvtBalance} = useBalance(
     {
@@ -115,5 +107,5 @@ export function useHackerMonitor() {
     },
   })
 
-  return {hacked}
+  return {hacked, attackerEthBalance, attackerRvtBalance}
 }
