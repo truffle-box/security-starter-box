@@ -3,13 +3,13 @@
   "packageManager": "yarn@3.3.0",
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.0",
-    "@uniswap/sdk-core": "^3.1.0",
-    "@uniswap/v3-core": "^1.0.1",
-    "@uniswap/v3-periphery": "^1.4.3",
     "@uniswap/sdk": "^3.0.3",
+    "@uniswap/sdk-core": "^3.1.0",
     "@uniswap/v2-core": "^1.0.1",
     "@uniswap/v2-periphery": "^1.1.0-beta.0",
     "@uniswap/v2-sdk": "^3.0.1",
+    "@uniswap/v3-core": "^1.0.1",
+    "@uniswap/v3-periphery": "^1.4.3",
     "@uniswap/v3-sdk": "^3.9.0"
   },
   "main": "./dist/src/index.js",
@@ -31,7 +31,7 @@
     "migrate": "yarn compile-migrations && truffle migrate",
     "test": "yarn compile-migrations && truffle test",
     "run-ganache": "yarn g:run-ganache",
-    "ganache-forked": "yarn ganache --fork mainnet --fork.blockNumber 16173000 -d -e 10000 ",
+    "ganache-forked": "ganache --fork mainnet --fork.blockNumber 16173000 -d -e 10000 ",
     "g:hackdapp-ganache-migrate": "concurrently -n ganache,migrate 'yarn run-ganache' 'yarn migrate && echo ALL CONTRACTS DEPLOYED. Ctrl+c to close this server down when finished.'",
     "postinstall": "yarn typecheck"
   },
@@ -41,15 +41,11 @@
     "@types/chai": "^4",
     "@types/mocha": "^10",
     "@types/web3": "^1.2.2",
-
     "chai": "^4.3.7",
     "concurrently": "*",
     "ethers": "^5.7.2",
-    "ganache": "*",
     "mocha": "^10.2.0",
-    "truffle": "*",
     "typechain": "^8.1.1",
-    "typescript": "*",
-    "web3-eth-contract": "^1.8.1"
+    "typescript": "*"
   }
 }

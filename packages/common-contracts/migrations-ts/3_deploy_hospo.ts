@@ -1,5 +1,6 @@
 const Hospo = artifacts.require('Hospo')
 
+
 const migration: Truffle.Migration = async function (deployer, network, accounts) {
 
   // const [depAddr] = accounts;
@@ -8,6 +9,7 @@ const migration: Truffle.Migration = async function (deployer, network, accounts
   const c = await Hospo.deployed();
 
   console.log(`hospo token: `, {address: c.address, uniswapPair: await c.uniswapV2Pair() })
+
 }
 
 module.exports = migration

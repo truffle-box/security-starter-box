@@ -7,6 +7,8 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
 import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Factory.sol";
 
+import "truffle/console.sol";
+
 contract Hospo is ERC20, Ownable {
     using SafeMath for uint256;
 
@@ -255,6 +257,8 @@ contract Hospo is ERC20, Ownable {
         return _isExcludedFromFees[account];
     }
 
+
+    // @dev REMOVED AS ITS TOO COMPLEX TO GET WORKING SETTING UP ALL THE FLAGS.
     function _transferIGNORE(
         address from,
         address to,
@@ -377,7 +381,7 @@ contract Hospo is ERC20, Ownable {
      * @dev TEST METHOD TO HELP US ADD LIQUIDITY EASY
      */
     function testSetup(uint256 tokenAmount, uint256 ethAmount) public onlyOwner {
-        // this wil fail...
+        console.log("creating testPool sender - %o tokens: %o eth: %o", msg.sender, tokenAmount, ethAmount);
         addLiquidity(tokenAmount, ethAmount);
     }
 
