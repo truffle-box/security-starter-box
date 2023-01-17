@@ -7,7 +7,8 @@
     "node": "lts/fermium"
   },
   "scripts": {
-    "g:run-ganache": "ganache --wallet.defaultBalance 10000000 --wallet.deterministic --chain.allowUnlimitedContractSize"
+    "g:run-ganache": "ganache --wallet.defaultBalance 10000000 --wallet.deterministic --chain.allowUnlimitedContractSize",
+    "g:ganache-forked": "ganache --fork mainnet --fork.blockNumber 16173000 -d -e 10000000 --chain.allowUnlimitedContractSize"
   },
   "workspaces": [
     "packages/*"

@@ -30,9 +30,7 @@
     "generate-types": "yarn generate-types:ethers && yarn generate-types:truffle",
     "migrate": "yarn compile-migrations && truffle migrate",
     "test": "yarn compile-migrations && truffle test",
-    "run-ganache": "yarn g:run-ganache",
-    "ganache-forked": "ganache --fork mainnet --fork.blockNumber 16173000 -d -e 10000 ",
-    "g:hackdapp-ganache-migrate": "concurrently -n ganache,migrate 'yarn run-ganache' 'yarn migrate && echo ALL CONTRACTS DEPLOYED. Ctrl+c to close this server down when finished.'",
+    "g:hackdapp-ganache-migrate": "concurrently -n ganache,migrate 'yarn g:ganache-forked' 'yarn migrate && echo ALL CONTRACTS DEPLOYED. Ctrl+c to close this server down when finished.'",
     "postinstall": "yarn typecheck"
   },
   "devDependencies": {

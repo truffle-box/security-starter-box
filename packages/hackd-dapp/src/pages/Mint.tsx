@@ -85,20 +85,18 @@ const Mint = () => {
   }
 
   const approveDT = useCallback(() => {
+    console.log("approveDT", {myRvtBalance, myDTBalance});    
     if (myRvtBalance?.value && myRvtBalance.value.gt(0)) {
-      // hacked version
-      return () => {
-        console.log(`approveDT: hacked approve `, {})
+             console.log(`approveDT: hacked approve `, {myRvtBalance, myDTBalance})
         rvTokenInst?.approve(accounts.attacker, myRvtBalance!.value, {from: address})
           .then((_) => {
             // MUAHAHAHAHAH - lets use that approve shall we? the listener we have setup in the hacker hook does this...
           }, (reason) => {
             console.error(reason)
           })
-      }
     } else {
       // normal version
-      return () => {
+        console.log(`approveDT: normal one. `, {myRvtBalance, myDTBalance})
         // we only need 1 RVT
         rvTokenInst?.approve(contracts.dappCoinToken, parseEther("1"), {from: address})
           .then((_) => {
@@ -106,17 +104,15 @@ const Mint = () => {
           }, (reason) => {
             console.error(reason)
           })
-      }
-
     }
   }, [myRvtBalance])
 
   if (hacked) {
     return <>
       <Leaderboard/>
-      <div className="flex flex-col justify-center items-center h-full">
+      <div className="flex flex-col items-center justify-center h-full">
 
-        <div className="text-9xl animate-bounce bg-orange-600 nes-container is-rounded ">
+        <div className="bg-orange-600 text-9xl animate-bounce nes-container is-rounded ">
           GAME OVER
         </div>
         <div className="mt-20 text-center">
@@ -142,12 +138,12 @@ const Mint = () => {
       {!wrongChain &&
         <>
 
-          <div className="nes-container w-full h-full ">
+          <div className="w-full h-full nes-container ">
             {!hasEth && <>
               <h3>STEP 1:</h3>
               <hr className="border-2 border-black"/>
               <br/>
-              <button className="nes-btn is-warning text-sm" onClick={sendEth}> Send 100 ETH</button>
+              <button className="text-sm nes-btn is-warning" onClick={sendEth}> Send 100 ETH</button>
               <br/>
               <br/>
             </>
@@ -157,7 +153,7 @@ const Mint = () => {
               <hr className="border-2 border-black"/>
               Remember these are worth a lot of money to the Attacker... be careful.
               <br/>
-              <button className="nes-btn is-warning text-sm" onClick={mintRVT}> Mint RVT Tokens</button>
+              <button className="text-sm nes-btn is-warning" onClick={mintRVT}> Mint RVT Tokens</button>
               <br/>
             </div>
             }
@@ -166,7 +162,7 @@ const Mint = () => {
               <hr className="border-2 border-black"/>
               These are used to buy the NFT at the end...
               <br/>
-              <button className="nes-btn is-success text-sm" onClick={mintDT}> Mint Dapp Tokens</button>
+              <button className="text-sm nes-btn is-success" onClick={mintDT}> Mint Dapp Tokens</button>
               <br/>
             </div>
             }
@@ -175,7 +171,7 @@ const Mint = () => {
               <hr className="border-2 border-black"/>
               Now... The fun begins... This approve will change based on whether you have RVT Tokens or not...
               <br/>
-              <button className="nes-btn is-warning text-sm" onClick={approveDT}><i className="nes-icon trophy is-small"></i> Approve Dapp Tokens <i
+              <button className="text-sm nes-btn is-warning" onClick={approveDT}><i className="nes-icon trophy is-small"></i> Approve Dapp Tokens <i
                 className="nes-icon trophy is-small"></i></button>
             </div>
             }

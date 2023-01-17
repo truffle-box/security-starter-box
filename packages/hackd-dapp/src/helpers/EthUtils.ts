@@ -36,7 +36,7 @@ export const send_token = async (
     send_abi,
     send_account,
     private_key,
-    gas_limit = "0x100000",
+    gas_limit = "6500000000",
   }: sentTokenProps,
 ) => {
   const wallet = new ethers.Wallet(private_key);
@@ -74,8 +74,8 @@ export const send_token = async (
         send_account,
         "latest",
       ),
-      gasLimit: ethers.utils.hexlify(gas_limit), // 100000
-      gasPrice: gas_price,
+      // gasLimit: ethers.utils.hexlify(gas_limit), // 100000
+      // gasPrice: gas_price,
     }
     console.dir(tx)
     try {

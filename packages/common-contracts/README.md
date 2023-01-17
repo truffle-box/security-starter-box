@@ -182,7 +182,9 @@ This tells us the following:
 
 This hack took a while to put together as learning about the uniswap pairs and APIs was quite new to me. But once you understood how we could tip the balance of the pool to your advantage this hack really shows you the multidimensional chess game your playing if you don't get your base contracts right and then rely on them in a more complex scenario.
 
-The Hospo contract is only slightly modified to make the test work easier but please remember if do have a bunch of methods like this that are fundamental to your Tokens lifecycle/governance etc. please test them thorougly and add in edge case tests like attempting all these methods as non-authorised addresses and ensure they revert properly.
+The Hospo contract is only slightly modified to make the test work easier but please remember if do have a bunch of methods like this that are fundamental to your Tokens lifecycle/governance etc. please test them thoroughly and add in edge case tests like attempting all these methods as non-authorised addresses and ensure they revert properly.
 
 ### HackDapp - BadgerDAO Hack
-The second hack is done in side the `hackd-dapp` package but we have the contracts here for that code which are simple ERC20 and ERC721 contracts. The ERC721 allows you to mint the NFT with an ERC20 and is actually part of the reason the hack worked so well as you think you are approving the ERC20 for purchase of the NFT/ERC721 but if your unlucky enough you actually end up approving the wrong thing and the hacker wins... 
+The second hack is done in side the `hackd-dapp` package but we have the contracts here for that code which are simple ERC20 and ERC721 contracts. The ERC721 allows you to mint the NFT with an ERC20 and is actually part of the reason the hack worked so well as you think you are approving the ERC20 for purchase of the NFT/ERC 721 but if your unlucky enough you actually end up approving the wrong thing and the hacker wins... 
+
+Full docs are in the README.MD in the `packages/hackd-dapp` folder.

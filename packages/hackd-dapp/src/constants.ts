@@ -4,15 +4,17 @@
  * If you re-deploy or change the migration these may change...
  */
 export const contracts = {
-  nft: "0xCfEB869F69431e42cdB54A4F4f105C19C080A601",
-  reallyValuableToken: "0x5b1869D9A4C187F2EAa108f3062412ecf0526b24",
-  dappCoinToken: '0xe78A0F7E598Cc8b0Bb87894B0F60dD2a88d6a8Ab',
+  nft: "0x41bAd2a818F0cC99a1609B9b6040AE3985a1E6b6",
+  reallyValuableToken: "0xAF93aB779f224acf0De5cdEa0D5Ae41cAd807Dfa",
+  dappCoinToken: '0x4845A85df358b3d5c519f00202e6D141493e0731',
 } as const
 
 /*
- [migrate]   dappCoinToken: '0xe78A0F7E598Cc8b0Bb87894B0F60dD2a88d6a8Ab',
- [migrate]   reallyValuableToken: '0x5b1869D9A4C187F2EAa108f3062412ecf0526b24',
- [migrate]   nft: '0xCfEB869F69431e42cdB54A4F4f105C19C080A601'
+ migration:  {
+   dappCoinToken: '0x4845A85df358b3d5c519f00202e6D141493e0731',
+   reallyValuableToken: '0xAF93aB779f224acf0De5cdEa0D5Ae41cAd807Dfa',
+   nft: '0x41bAd2a818F0cC99a1609B9b6040AE3985a1E6b6'
+ }
  */
 
 export const accounts = {
